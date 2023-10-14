@@ -10,3 +10,7 @@ cd music-map-express
 node .\server.js
 
 http://localhost:3001/
+
+
+//zdefiniować api
+//zdefiniwoać w aplikacji swagger

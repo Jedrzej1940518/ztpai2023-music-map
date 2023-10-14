@@ -1,0 +1,12 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./music-map-express
+    ports:
+      - "3001:3001"
+  frontend:
+    build:
+      context: ./music-map-react
+    ports:
+      - "3000:3000"
