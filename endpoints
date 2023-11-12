@@ -1,0 +1,9 @@
+
+endpoints:
+get - genres
+get - music_festivals/[genre]/[from-to]
+get - concerts/[genre]/[from-to]
+
+get - music_festival/[id]
+
+post  - login

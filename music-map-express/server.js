@@ -3,11 +3,12 @@ const express = require('express');
 const app = express();
 const port = 3001; 
 
-//base path
-app.get('/', (req, res) => {
-  res.send('Hello world!');
-});
+const festivalRouter = require('./routes/festival');
+
+app.use(express.json());
+
+app.use('/api/festivals', festivalRouter);
 
 app.listen(port, () => {
-  console.log(`Server port: ${port}`);
+  console.log(`Serwer działa na http://localhost:${port}`);
 });

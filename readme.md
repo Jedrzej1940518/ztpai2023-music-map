@@ -1,16 +1,13 @@
 More to come!
 
-express = backend
-react = frontend
+express - backend
+react - frontend
 
+RUN:
 
-backend run:
-
-cd music-map-express
-node .\server.js
+docker-compose up
 
 http://localhost:3001/
-
 
 //zdefiniować api
 //zdefiniwoać w aplikacji swagger
