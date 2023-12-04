@@ -5,8 +5,13 @@ services:
       context: ./music-map-express
     ports:
       - "3001:3001"
+    volumes:
+      - ./music-map-express:/app
+
   frontend:
     build:
       context: ./music-map-react
     ports:
       - "3000:3000"
+    volumes:
+      - ./music-map-react:/app

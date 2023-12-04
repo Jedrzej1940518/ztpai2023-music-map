@@ -1,13 +1,11 @@
+# Dockerfile in music-map-react directory
 FROM node:14
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-RUN npm install -g create-react-app
+COPY package.json package-lock.json /app/
+RUN npm install
 
-RUN npx create-react-app nazwa_twojego_projektu
+COPY . /app
 
-WORKDIR /usr/src/app/nazwa_twojego_projektu
-
-EXPOSE 3000
-
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]
