@@ -1,12 +1,14 @@
-// App.js
 import React from 'react';
 import HamburgerMenu from './HamburgerMenu';
 
+import './App.css';
+
 const App = () => {
   return (
-    <div>
+    <div className="header-container">
       <HamburgerMenu />
-      <h1>Music-Map</h1>
+      <div className="header-text">Music-Map loool xdd!</div>
+      <div className="header-text">no i essa xdd!</div>
     </div>
   );
 };

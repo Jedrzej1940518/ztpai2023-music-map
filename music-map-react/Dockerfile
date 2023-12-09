@@ -1,11 +1,17 @@
-# Dockerfile in music-map-react directory
+
 FROM node:14
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package.json package-lock.json /app/
-RUN npm install
+RUN npm install -g create-react-app
 
-COPY . /app
+RUN npx create-react-app music_map
 
-CMD ["npm", "start"]
+WORKDIR /usr/src/app/music_map
+
+COPY . .
+
+EXPOSE 3000
+
+CMD [ "npm", "start" ]
+ 

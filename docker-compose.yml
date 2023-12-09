@@ -6,7 +6,7 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ./music-map-express:/app
+      - ./music-map-express:/app/backend
 
   frontend:
     build:
@@ -14,4 +14,4 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./music-map-react:/app
+      - ./music-map-react:/app/frontend
