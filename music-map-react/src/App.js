@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import HamburgerMenu from './HamburgerMenu';
+import SignIn from './SignIn'
+import LoginMenu from './LoginMenu';
 
 import './App.css';
+import './Common.css';
 
 const App = () => {
 
-  const [showSignOut, setShowSignOut] = useState(false);
+  const [showLoginMenu, setShowLoginMenu] = useState(false);
+  const [showSignedIn, setShowSignedIn] = useState(true);
 
   return (
     <div>
@@ -14,13 +18,9 @@ const App = () => {
           <HamburgerMenu />
           <div className="header-text">Music-Map</div>
         </div>
-        <div className="sign-in-container" onMouseEnter={() => setShowSignOut(true)} onMouseLeave={() => setShowSignOut(false)}>
-          <div className="header-text">Logged in as X</div>
-          <div className={`sign-out-option ${showSignOut ? 'show' : ''}`} onClick={() => console.log('Sign out clicked')}>
-            Sign out
-          </div>
-        </div>
+        <SignIn setShowLoginMenu={setShowLoginMenu} setShowSignedIn={setShowSignedIn} showSignedIn={showSignedIn} /> { }
       </div>
+      <LoginMenu showLoginMenu={showLoginMenu} setShowLoginMenu={setShowLoginMenu} setShowSignedIn={setShowSignedIn} />
     </div>
   );
 };

@@ -1,0 +1,36 @@
+.header-text {
+    margin-left: 2vh;
+    font-size: 3vh;
+    cursor: pointer;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s;
+}
+
+.text-input {
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    outline: none;
+    color: white;
+    font-size: 2.7vh;
+    width: 100%;
+}
+
+.text-input::placeholder {
+    color: white;
+    font-size: 2.7vh;
+}
+
+.button-style {
+    background: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    font-size: 2vh;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+}

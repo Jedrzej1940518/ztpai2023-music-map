@@ -8,6 +8,7 @@ body {
   /* Replace 'your-image-path.jpg' with your image path */
 }
 
+
 .App {
   display: flex;
   align-items: left;
@@ -23,7 +24,6 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   background-color: rgba(51, 51, 51, 0);
-  /* rgba with alpha channel for transparency */
   color: white;
   padding: 16px;
 }
@@ -31,30 +31,4 @@ body {
 .left-section {
   display: flex;
   align-items: center;
-}
-
-.header-text {
-  margin-left: 2vh;
-  font-size: 3vh;
-  cursor: pointer;
-}
-
-.sign-in-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  /* Align items to the right */
-}
-
-.sign-out-option {
-  margin-top: 0.5vh;
-  font-size: 2vh;
-  cursor: pointer;
-  opacity: 0;
-  visibility: visible;
-  transition: opacity 0.3s;
-}
-
-.sign-out-option.show {
-  opacity: 1;
 }

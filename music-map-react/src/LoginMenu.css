@@ -1,0 +1,40 @@
+.login-menu {
+    position: fixed;
+    top: 0;
+    right: -1%;
+    height: 100vh;
+    width: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: right 1s ease-in, width 1s ease-in;
+}
+
+.login-menu.show {
+    right: 0;
+    width: 300px;
+    transition: right 1s ease-in, width 1s ease-in;
+}
+
+.menu-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 15vh;
+}
+
+.input-box {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.sign-in-button {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.login-box {
+    background-color: rgba(51, 51, 51, 0.1);
+}
