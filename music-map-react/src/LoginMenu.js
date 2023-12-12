@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import config from './config';
 import './LoginMenu.css';
 import './Common.css';
 
@@ -7,12 +8,13 @@ const LoginMenu = ({ showLoginMenu, setShowLoginMenu, setShowSignedIn }) => {
     const [password, setPassword] = useState('');
 
     const handleSignIn = () => {
-        const apiUrl = 'http://localhost:3001/api/users'; /*todo fix later*/
+        const userApi = config.userApi
+
         const requestBody = {
             email: email,
             password: password
         };
-        fetch(apiUrl, {
+        fetch(userApi, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const Database = require('../database/db');
 
-const db = require('../database/db');
+const db = new Database();
 
 router.get('/', (req, res) => {
     res.json({ message: 'UserApi' });
@@ -17,9 +18,10 @@ router.post('/', async (req, res) => {
 
     try {
         const user = await db.getUserByEmailAndPassword(email, password);
+        console.log(user);
 
         if (user) {
-            res.status(200).json({ success: true, message: 'Sign in successful' });
+            res.status(200).json({ success: true, message: 'Sign in successful', user: user });
         } else {
             res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
@@ -28,7 +30,5 @@ router.post('/', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 });
-
-
 
 module.exports = router;
