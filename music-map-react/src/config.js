@@ -1,9 +1,14 @@
-const apiBaseUrl = 'http://localhost:3001';
+const backend_port = 3001; /*process.env.BACKEND_PORT; todo fix later*/
 
+const apiBaseUrl = `http://localhost:${backend_port}`;
 const userApi = `${apiBaseUrl}/api/user`;
+const singInApi = `${userApi}/signin`;
+
 const festivalApi = `${apiBaseUrl}/api/festival`;
 
-export default {
+module.exports = {
+    backend_port,
     userApi,
     festivalApi,
+    singInApi
 };

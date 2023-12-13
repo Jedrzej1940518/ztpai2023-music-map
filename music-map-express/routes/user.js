@@ -1,7 +1,7 @@
+const config = require('../config');
 const express = require('express');
-const router = express.Router();
 const Database = require('../database/db');
-
+const router = express.Router();
 const db = new Database();
 
 router.get('/', (req, res) => {
@@ -13,7 +13,8 @@ router.get('/:id', (req, res) => {
     res.json({ message: `Szczegóły usera o ID ${userId}` });
 });
 
-router.post('/', async (req, res) => {
+//login
+router.post(config.singInApi, async (req, res) => {
     const { email, password } = req.body;
 
     try {

@@ -18,12 +18,13 @@ services:
     build:
       context: ./music-map-express
     ports:
-      - "3001:3001"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     volumes:
       - ./music-map-express:/app/backend
     depends_on:
       - postgres
     environment:
+      BACKEND_PORT: ${BACKEND_PORT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -35,9 +36,12 @@ services:
     build:
       context: ./music-map-react
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     volumes:
       - ./music-map-react:/app/frontend
+    environment:
+      FRONTEND_PORT: ${FRONTEND_PORT}
+      BACKEND_PORT: ${BACKEND_PORT}
     networks:
       - my_network
 

@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import config from './config';
 import './LoginMenu.css';
 import './Common.css';
+
+const config = require('./config');
 
 const LoginMenu = ({ showLoginMenu, setShowLoginMenu, setShowSignedIn }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSignIn = () => {
-        const userApi = config.userApi
+        const singInApi = config.singInApi
 
         const requestBody = {
             email: email,
             password: password
         };
-        fetch(userApi, {
+        fetch(singInApi, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
