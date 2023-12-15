@@ -1,5 +1,9 @@
 FROM node:14
 
+#debugging purposes
+RUN apt-get update \
+    && apt-get install -y postgresql-client
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
@@ -10,4 +14,4 @@ COPY . .
 
 EXPOSE $BACKEND_PORT
 
-CMD [ "node", "server.js" ]
+CMD ["npm", "start"]

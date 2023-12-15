@@ -1,23 +1,40 @@
-const config = require('./config');
-const { checkDatabaseConnection } = require('./initDb');
-
+const config = require('./config/config');
 const express = require('express');
 const cors = require('cors');
+const DbManager = require('./utils/DbManager');
+const UserRouter = require('./routes/UserRouter');
+const FestivalRouter = require('./routes/FestivalRouter');
 
-const app = express();
-const port = config.port;
+class WebServer {
+  constructor() {
+    this.dbManager = new DbManager();
+    this.app = express();
+    this.port = config.port;
 
-const festivalRouter = require('./routes/festival');
-const userRouter = require('./routes/user');
+    this.initializeMiddleware();
+    this.initializeRoutes();
+  }
 
-app.use(express.json());
+  initializeMiddleware() {
+    this.app.use(express.json());
+    this.app.use(cors());
+  }
 
-app.use(cors());
+  initializeRoutes() {
+    const festivalRouter = new FestivalRouter();
+    const userRouter = new UserRouter();
 
-app.use(config.festivalApi, festivalRouter);
-app.use(config.userApi, userRouter);
+    this.app.use(config.festivalApi, festivalRouter.router);
+    this.app.use(config.userApi, userRouter.router);
+  }
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-  checkDatabaseConnection();
-});
+  start() {
+    this.app.listen(this.port, () => {
+      console.log(`Server is running at http://localhost:${this.port}`);
+      this.dbManager.initializeDatabase();
+    });
+  }
+}
+
+const webServer = new WebServer();
+webServer.start();
