@@ -54,6 +54,36 @@ class DbManager {
             throw error;
         }
     }
+    async getUserByEmail(email) {
+        try {
+            const user = await this.User.findOne({
+                where: {
+                    email: email,
+                },
+            });
+
+            return user;
+        } catch (error) {
+            console.error('Error querying the database:', error);
+            throw error;
+        }
+    }
+    async registerUser(email, nickname, password) {
+        try {
+            const newUser = await this.User.create({
+                email,
+                nickname,
+                password,
+            });
+
+            console.log('User registered:', newUser.email);
+            return { success: true, user: newUser };
+        } catch (error) {
+            console.error('Error registering user:', error.message);
+            return { success: false, error: error.message };
+        }
+    }
+
 }
 
 module.exports = DbManager;

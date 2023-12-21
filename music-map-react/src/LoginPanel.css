@@ -1,4 +1,4 @@
-.login-menu {
+.login-panel {
     position: fixed;
     top: 0;
     right: -1%;
@@ -8,7 +8,7 @@
     transition: right 1s ease-in, width 1s ease-in;
 }
 
-.login-menu.show {
+.login-panel.show {
     right: 0;
     width: 300px;
     transition: right 1s ease-in, width 1s ease-in;

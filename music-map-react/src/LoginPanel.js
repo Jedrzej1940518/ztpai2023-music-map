@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
-import './LoginMenu.css';
+import './LoginPanel.css';
 import './Common.css';
 
 const config = require('./config');
 
-const LoginMenu = ({ showLoginMenu, setShowLoginMenu, setShowSignedIn }) => {
+const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSignIn = () => {
-        const singInApi = config.singInApi
-
         const requestBody = {
             email: email,
             password: password
         };
-        fetch(singInApi, {
+        fetch(config.singInApi, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -37,16 +35,16 @@ const LoginMenu = ({ showLoginMenu, setShowLoginMenu, setShowSignedIn }) => {
         console.log('Signing in with:', email, password);
     };
     const handleMouseEnter = () => {
-        setShowLoginMenu(true);
+        setShowLoginPanel(true);
         setShowSignedIn(false);
     }
     const handleMouseLeave = () => {
-        setShowLoginMenu(false);
+        setShowLoginPanel(false);
         setShowSignedIn(true)
     }
 
     return (
-        <div className={`login-menu ${showLoginMenu ? 'show' : ''}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <div className={`login-panel ${showLoginPanel ? 'show' : ''}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div className="menu-content">
                 <input
                     type="text"
@@ -70,4 +68,4 @@ const LoginMenu = ({ showLoginMenu, setShowLoginMenu, setShowSignedIn }) => {
     );
 };
 
-export default LoginMenu;
+export default LoginPanel;

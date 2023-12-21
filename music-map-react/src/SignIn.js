@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import './SignIn.css';
 
-const SignIn = ({ setShowLoginMenu, setShowSignedIn, showSignedIn }) => {
+const SignIn = ({ setShowLoginPanel, setShowRegisterPanel, setShowSignedIn, showSignedIn }) => {
 
     const [showSignOptions, setShowSignOptions] = useState(false);
     const [signedIn, setSignedIn] = useState(false);
@@ -15,8 +15,8 @@ const SignIn = ({ setShowLoginMenu, setShowSignedIn, showSignedIn }) => {
                         <div className="header-text">Logged in as X</div>
                         <div className={`sign-out-option ${showSignOptions ? 'show' : ''}`} onClick={() => {
                             console.log('Sign out clicked');
-                            setSignedIn(false);
-                            setShowLoginMenu(false);
+                            //setSignedIn(false);
+                            setShowLoginPanel(false);
                         }}>
                             Sign out
                         </div>
@@ -25,14 +25,16 @@ const SignIn = ({ setShowLoginMenu, setShowSignedIn, showSignedIn }) => {
                     <>
                         <div className="header-text" onClick={() => {
                             console.log('Sign in clicked');
-                            setSignedIn(true);
-                            setShowLoginMenu(true);
+                            //setSignedIn(true);
+                            setShowLoginPanel(true);
                             setShowSignedIn(false)
                         }}> Sign in
                         </div>
                         <div className={`sign-out-option ${showSignOptions ? 'show' : ''}`} onClick={() => {
                             console.log('Register clicked');
-                            setSignedIn(true);
+                            setShowRegisterPanel(true);
+                            //setSignedIn(true);
+                            setShowSignedIn(false);
                         }}> Register
                         </div>
                     </>

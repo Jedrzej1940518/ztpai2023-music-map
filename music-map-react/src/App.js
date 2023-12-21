@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import HamburgerMenu from './HamburgerMenu';
 import SignIn from './SignIn'
-import LoginMenu from './LoginMenu';
+import LoginPanel from './LoginPanel';
+import RegisterPanel from './RegisterPanel';
 
 import './App.css';
 import './Common.css';
 
 const App = () => {
 
-  const [showLoginMenu, setShowLoginMenu] = useState(false);
+  const [showLoginPanel, setShowLoginPanel] = useState(false);
+  const [showRegisterPanel, setShowRegisterPanel] = useState(false);
   const [showSignedIn, setShowSignedIn] = useState(true);
 
   return (
@@ -18,9 +20,10 @@ const App = () => {
           <HamburgerMenu />
           <div className="header-text">Music-Map</div>
         </div>
-        <SignIn setShowLoginMenu={setShowLoginMenu} setShowSignedIn={setShowSignedIn} showSignedIn={showSignedIn} /> { }
+        <SignIn setShowLoginPanel={setShowLoginPanel} setShowRegisterPanel={setShowRegisterPanel} setShowSignedIn={setShowSignedIn} showSignedIn={showSignedIn} /> { }
       </div>
-      <LoginMenu showLoginMenu={showLoginMenu} setShowLoginMenu={setShowLoginMenu} setShowSignedIn={setShowSignedIn} />
+      <RegisterPanel showRegisterPanel={showRegisterPanel} setShowRegisterPanel={setShowRegisterPanel} setShowSignedIn={setShowSignedIn} />
+      <LoginPanel showLoginPanel={showLoginPanel} setShowLoginPanel={setShowLoginPanel} setShowSignedIn={setShowSignedIn} />
     </div>
   );
 };
