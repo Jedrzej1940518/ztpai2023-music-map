@@ -8,11 +8,18 @@ const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [error, setError] = useState('');
+
+    const setErrorMessage = (message) => {
+        setError(message);
+    };
+
     const handleSignIn = () => {
         const requestBody = {
             email: email,
             password: password
         };
+        setErrorMessage('');
         fetch(config.singInApi, {
             method: 'POST',
             headers: {
@@ -21,26 +28,34 @@ const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn }) => {
             body: JSON.stringify(requestBody)
         })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                if (!response.ok)
+                    setErrorMessage(`HTTP error! Status: ${response.status}`);
+
                 return response.json();
             })
             .then(data => {
-                console.log('Sign in successful:', data);
+                if (data.success === false)
+                    setErrorMessage(data.message);
+
+                console.log('Sign in requested', data);
             })
-            .catch(error => {
-                console.error('Error signing in:', error);
+            .catch(e => {
+                console.error('Error signing in:', e);
+                setErrorMessage(e);
             });
-        console.log('Signing in with:', email, password);
+        if (data.success === true) {
+            console.log('Signed in as', data.nickname);
+        }
     };
     const handleMouseEnter = () => {
         setShowLoginPanel(true);
         setShowSignedIn(false);
+        setErrorMessage('');
     }
     const handleMouseLeave = () => {
         setShowLoginPanel(false);
-        setShowSignedIn(true)
+        setShowSignedIn(true);
+        setErrorMessage('');
     }
 
     return (
@@ -63,6 +78,11 @@ const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn }) => {
                 <button className="button-style" onClick={handleSignIn}>
                     Sign In
                 </button>
+                {error && (
+                    <div style={{ color: 'red' }}>
+                        {error}
+                    </div>
+                )}
             </div>
         </div>
     );

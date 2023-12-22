@@ -35,11 +35,17 @@ const RegisterPanel = ({ showRegisterPanel, setShowRegisterPanel, setShowSignedI
             .then(response => {
                 if (!response.ok) {
                     setErrorMessage(response.message);
+                    console.log(error, response.message);
                 }
                 return response.json();
             })
             .then(data => {
-                console.log('User registered:', data);
+                console.log('User registration', data);
+                if (data.success === false) {
+                    console.log('Registration failed', data);
+                    setErrorMessage(data.message);
+                }
+                console.log('Registration Suceeded', data);
             })
             .catch(err => {
                 console.error('Error signing in:', err);
@@ -48,10 +54,12 @@ const RegisterPanel = ({ showRegisterPanel, setShowRegisterPanel, setShowSignedI
     const handleMouseEnter = () => {
         setShowRegisterPanel(true);
         setShowSignedIn(false);
+        setError('');
     }
     const handleMouseLeave = () => {
         setShowRegisterPanel(false);
-        setShowSignedIn(true)
+        setShowSignedIn(true);
+        setError('');
     }
 
     return (

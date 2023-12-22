@@ -1,5 +1,6 @@
 const express = require('express');
 const DbManager = require('../utils/DbManager');
+const JWTManager = require('../auth/JWTManager');
 const config = require('../config/config');
 const validator = require('validator');
 
@@ -7,7 +8,7 @@ class UserRouter {
     constructor() {
         this.router = express.Router();
         this.db = new DbManager();
-
+        this.jwtManager = new JWTManager();
         this.initializeRoutes();
     }
 
@@ -34,7 +35,8 @@ class UserRouter {
             const user = await this.db.getUserByEmailAndPassword(email, password);
 
             if (user) {
-                res.status(200).json({ success: true, message: 'Sign in successful', user: user });
+                const token = this.jwtManager.generateToken(user);
+                res.status(200).json({ success: true, message: 'Sign in successful', user: user, token: token });
             } else {
                 res.status(401).json({ success: false, message: 'Invalid email or password' });
             }
