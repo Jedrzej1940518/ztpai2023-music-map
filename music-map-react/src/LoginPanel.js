@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './LoginPanel.css';
 import './Common.css';
 
+const userUtils = require('./userUtils');
 const config = require('./config');
 
 const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn }) => {
@@ -29,23 +30,24 @@ const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn }) => {
         })
             .then(response => {
                 if (!response.ok)
-                    setErrorMessage(`HTTP error! Status: ${response.status}`);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
 
                 return response.json();
             })
             .then(data => {
-                if (data.success === false)
-                    setErrorMessage(data.message);
-
                 console.log('Sign in requested', data);
+                if (!data.success)
+                    setErrorMessage(data.message);
+                else {
+                    userUtils.storeTokenInCookie('token', data.token);
+                    console.log(`Signed in as ${data.user.nickname} with token ${data.token}`);
+                }
             })
             .catch(e => {
                 console.error('Error signing in:', e);
-                setErrorMessage(e);
+                setErrorMessage(e.message || 'An error occurred');
             });
-        if (data.success === true) {
-            console.log('Signed in as', data.nickname);
-        }
+
     };
     const handleMouseEnter = () => {
         setShowLoginPanel(true);

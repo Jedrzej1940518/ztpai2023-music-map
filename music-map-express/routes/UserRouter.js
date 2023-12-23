@@ -20,7 +20,24 @@ class UserRouter {
     }
 
     async getUserApi(req, res) {
-        res.json({ message: 'UserApi' });
+
+        this.jwtManager.authenticateToken(req)
+            .then(result => {
+                console.log(result); // Use the result as needed
+                if (result.success) {
+
+                    this.db.getUserById(result.user_data.userId)
+                        .then(user_res => {
+                            res.status(200).json({ success: true, message: 'User ', user: user_res });
+                        })
+                }
+                else
+                    res.status(401).json({ success: false, message: 'coudlnt find user', user: null });
+            })
+            .catch(error => {
+                console.error(error); // Handle errors
+                res.status(401).json({ success: false, message: error, user: null });
+            });
     }
 
     async getUserDetails(req, res) {
@@ -36,6 +53,8 @@ class UserRouter {
 
             if (user) {
                 const token = this.jwtManager.generateToken(user);
+                this.jwtManager.setCookie(res, 'token', token);
+
                 res.status(200).json({ success: true, message: 'Sign in successful', user: user, token: token });
             } else {
                 res.status(401).json({ success: false, message: 'Invalid email or password' });

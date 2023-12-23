@@ -1,6 +1,8 @@
 const config = require('./config/config');
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
 const DbManager = require('./utils/DbManager');
 const UserRouter = require('./routes/UserRouter');
 const FestivalRouter = require('./routes/FestivalRouter');
@@ -18,6 +20,7 @@ class WebServer {
   initializeMiddleware() {
     this.app.use(express.json());
     this.app.use(cors());
+    this.app.use(cookieParser());
   }
 
   initializeRoutes() {

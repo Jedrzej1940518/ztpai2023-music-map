@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './LoginPanel.css';
 import './Common.css';
 
+const userUtils = require('./userUtils');
 const config = require('./config');
 
 const RegisterPanel = ({ showRegisterPanel, setShowRegisterPanel, setShowSignedIn }) => {
@@ -22,7 +23,8 @@ const RegisterPanel = ({ showRegisterPanel, setShowRegisterPanel, setShowSignedI
             password: password,
             repPassword: repPassword,
         };
-        console.log(password, repPassword);
+        const user = userUtils.getUserData();
+        console.log(`user_data ${user}`);
         setErrorMessage('');
 
         fetch(config.registerApi, {
@@ -41,11 +43,12 @@ const RegisterPanel = ({ showRegisterPanel, setShowRegisterPanel, setShowSignedI
             })
             .then(data => {
                 console.log('User registration', data);
-                if (data.success === false) {
-                    console.log('Registration failed', data);
+                if (!data.success) {
                     setErrorMessage(data.message);
+                    console.log('Registration failed', data);
                 }
-                console.log('Registration Suceeded', data);
+                else
+                    console.log('Registration Suceeded', data);
             })
             .catch(err => {
                 console.error('Error signing in:', err);

@@ -54,6 +54,21 @@ class DbManager {
             throw error;
         }
     }
+    async getUserById(id) {
+        try {
+            const user = await this.User.findOne({
+                where: {
+                    id: id,
+                },
+            });
+
+            return user;
+        } catch (error) {
+            console.error('Error querying the database:', error);
+            throw error;
+        }
+    }
+
     async getUserByEmail(email) {
         try {
             const user = await this.User.findOne({
