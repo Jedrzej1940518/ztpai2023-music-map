@@ -5,7 +5,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: url('../public/dj3.jpg') center/cover fixed no-repeat;
-  /* Replace 'your-image-path.jpg' with your image path */
 }
 
 

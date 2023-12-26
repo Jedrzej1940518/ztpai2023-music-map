@@ -1,4 +1,6 @@
 .map-component {
-    width: 100px;
-    height: 100px;
+    margin-left: 10%;
+    width: 80%;
+    height: 500px;
+    opacity: 0.93;
 }

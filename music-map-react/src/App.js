@@ -40,9 +40,9 @@ const App = () => {
         </div>
         <SignIn setShowLoginPanel={setShowLoginPanel} setShowRegisterPanel={setShowRegisterPanel} setShowSignedIn={setShowSignedIn} showSignedIn={showSignedIn} userData={userData} setUserData={setUserData} /> { }
       </div>
+      <MapComponent />
       <RegisterPanel showRegisterPanel={showRegisterPanel} setShowRegisterPanel={setShowRegisterPanel} setShowSignedIn={setShowSignedIn} />
       <LoginPanel showLoginPanel={showLoginPanel} setShowLoginPanel={setShowLoginPanel} setShowSignedIn={setShowSignedIn} setUserData={setUserData} />
-      <MapComponent />
     </div>
   );
 };

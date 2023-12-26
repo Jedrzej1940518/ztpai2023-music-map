@@ -1,5 +1,4 @@
-const backendPort = 3001; /*process.env.backend_port; todo fix later*/
-
+const backendPort = process.env.BACKEND_PORT;
 const apiBaseUrl = `http://localhost:${backendPort}`;
 const userApi = `${apiBaseUrl}/api/user`;
 const singInApi = `${userApi}/signin`;
