@@ -4,6 +4,7 @@ FROM node:14
 WORKDIR /usr/src/app
 
 RUN npm install -g create-react-app
+RUN npm install @vis.gl/react-google-maps
 
 RUN npx create-react-app music_map
 

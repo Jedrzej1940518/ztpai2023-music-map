@@ -1,16 +1,18 @@
-const backend_port = 3001; /*process.env.BACKEND_PORT; todo fix later*/
+const backendPort = 3001; /*process.env.backend_port; todo fix later*/
 
-const apiBaseUrl = `http://localhost:${backend_port}`;
+const apiBaseUrl = `http://localhost:${backendPort}`;
 const userApi = `${apiBaseUrl}/api/user`;
 const singInApi = `${userApi}/signin`;
 const registerApi = `${userApi}/register`;
 
 const festivalApi = `${apiBaseUrl}/api/festival`;
+const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 module.exports = {
-    backend_port,
+    backendPort,
     userApi,
     festivalApi,
     singInApi,
-    registerApi
+    registerApi,
+    googleMapsApiKey
 };

@@ -3,6 +3,7 @@ import HamburgerMenu from './HamburgerMenu';
 import SignIn from './SignIn'
 import LoginPanel from './LoginPanel';
 import RegisterPanel from './RegisterPanel';
+import MapComponent from './MapComponent';
 
 import './App.css';
 import './Common.css';
@@ -41,6 +42,7 @@ const App = () => {
       </div>
       <RegisterPanel showRegisterPanel={showRegisterPanel} setShowRegisterPanel={setShowRegisterPanel} setShowSignedIn={setShowSignedIn} />
       <LoginPanel showLoginPanel={showLoginPanel} setShowLoginPanel={setShowLoginPanel} setShowSignedIn={setShowSignedIn} setUserData={setUserData} />
+      <MapComponent />
     </div>
   );
 };

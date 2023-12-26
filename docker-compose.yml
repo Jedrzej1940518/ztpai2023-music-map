@@ -47,6 +47,7 @@ services:
     environment:
       FRONTEND_PORT: ${FRONTEND_PORT}
       BACKEND_PORT: ${BACKEND_PORT}
+      REACT_APP_GOOGLE_MAPS_API_KEY: ${REACT_APP_GOOGLE_MAPS_API_KEY}
     networks:
       - my_network
     container_name: frontend
