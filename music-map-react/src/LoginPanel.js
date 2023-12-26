@@ -5,7 +5,7 @@ import './Common.css';
 const userUtils = require('./userUtils');
 const config = require('./config');
 
-const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn }) => {
+const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn, setUserData }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -39,7 +39,8 @@ const LoginPanel = ({ showLoginPanel, setShowLoginPanel, setShowSignedIn }) => {
                 if (!data.success)
                     setErrorMessage(data.message);
                 else {
-                    userUtils.storeTokenInCookie('token', data.token);
+                    userUtils.storeTokenInCookie(data.token);
+                    setUserData(data.user);
                     console.log(`Signed in as ${data.user.nickname} with token ${data.token}`);
                 }
             })

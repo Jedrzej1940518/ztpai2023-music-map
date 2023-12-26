@@ -1,8 +1,11 @@
 
 const config = require('./config');
 
-const storeTokenInCookie = (cookieName, token) => {
-    document.cookie = `${cookieName}=${token}; SameSite=Lax`;
+const storeTokenInCookie = (token) => {
+    document.cookie = `token=${token}; SameSite=Lax`;
+};
+const removeTokenFromCookie = () => {
+    document.cookie = `token=; SameSite=Lax`;
 };
 
 const getTokenFromCookie = (cookieName) => {
@@ -25,7 +28,7 @@ const getUserData = () => {
         return Promise.reject('Token not available');
     }
 
-    fetch(config.userApi, {
+    return fetch(config.userApi, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -51,6 +54,7 @@ const getUserData = () => {
 
 module.exports = {
     storeTokenInCookie,
+    removeTokenFromCookie,
     getTokenFromCookie,
     getUserData,
 };

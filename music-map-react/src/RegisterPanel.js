@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './LoginPanel.css';
 import './Common.css';
 
-const userUtils = require('./userUtils');
 const config = require('./config');
 
 const RegisterPanel = ({ showRegisterPanel, setShowRegisterPanel, setShowSignedIn }) => {
@@ -23,8 +22,6 @@ const RegisterPanel = ({ showRegisterPanel, setShowRegisterPanel, setShowSignedI
             password: password,
             repPassword: repPassword,
         };
-        const user = userUtils.getUserData();
-        console.log(`user_data ${user}`);
         setErrorMessage('');
 
         fetch(config.registerApi, {

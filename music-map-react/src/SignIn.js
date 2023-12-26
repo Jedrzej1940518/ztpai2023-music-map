@@ -1,21 +1,30 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SignIn.css';
 
-const SignIn = ({ setShowLoginPanel, setShowRegisterPanel, setShowSignedIn, showSignedIn }) => {
+const SignIn = ({ setShowLoginPanel, setShowRegisterPanel, setShowSignedIn, showSignedIn, userData, setUserData }) => {
 
     const [showSignOptions, setShowSignOptions] = useState(false);
     const [signedIn, setSignedIn] = useState(false);
+
+    const userUtils = require('./userUtils');
+
+    useEffect(() => {
+        setSignedIn(userData);
+        console.log(`useEffect ${userData}`);
+    }, [userData]);
 
     return (
         <div className={`sign-in-container ${showSignedIn ? 'show' : ''}`} onMouseEnter={() => setShowSignOptions(true)} onMouseLeave={() => setShowSignOptions(false)}>
             {signedIn ?
                 (
                     <>
-                        <div className="header-text">Logged in as X</div>
+                        <div className="header-text">Logged in as {userData.nickname}</div>
                         <div className={`sign-out-option ${showSignOptions ? 'show' : ''}`} onClick={() => {
                             console.log('Sign out clicked');
-                            //setSignedIn(false);
+                            userUtils.removeTokenFromCookie();
+                            setUserData(null);
+                            setSignedIn(false);
                             setShowLoginPanel(false);
                         }}>
                             Sign out
@@ -25,7 +34,6 @@ const SignIn = ({ setShowLoginPanel, setShowRegisterPanel, setShowSignedIn, show
                     <>
                         <div className="header-text" onClick={() => {
                             console.log('Sign in clicked');
-                            //setSignedIn(true);
                             setShowLoginPanel(true);
                             setShowSignedIn(false)
                         }}> Sign in
@@ -33,7 +41,6 @@ const SignIn = ({ setShowLoginPanel, setShowRegisterPanel, setShowSignedIn, show
                         <div className={`sign-out-option ${showSignOptions ? 'show' : ''}`} onClick={() => {
                             console.log('Register clicked');
                             setShowRegisterPanel(true);
-                            //setSignedIn(true);
                             setShowSignedIn(false);
                         }}> Register
                         </div>
