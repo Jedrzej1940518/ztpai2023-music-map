@@ -4,4 +4,6 @@ personal_notes
 
 node_modules
 
+package*
+
 .env

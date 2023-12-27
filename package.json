@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "moment": "^2.30.0",
-    "react-datepicker": "^4.25.0",
-    "react-dates": "^21.8.0"
-  }
-}
