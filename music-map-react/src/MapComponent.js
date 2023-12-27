@@ -1,6 +1,7 @@
 import { APIProvider, Map } from '@vis.gl/react-google-maps'
 import './MapComponent.css'
 import FestivalMarker from './FestivalMarker'
+import DateSlider from './DateSlider' // Adjust the path based on your project structure
 
 const config = require('./config')
 
@@ -86,23 +87,29 @@ const darkMapStyle = [
 ]
 
 const MapComponent = () => {
-  const belinPosition = { lat: 52.52, lng: 13.405 }
+  const berlinPosition = { lat: 52.52, lng: 13.405 }
   const parisPosition = { lat: 48.8566, lng: 2.3522 }
+
+  const handleDateChange = ({ startDate, endDate }) => {
+    // Perform any additional actions based on selected dates
+    console.log('Selected Dates:', startDate, endDate)
+  }
 
   return (
     <div className={`map-component`}>
       <APIProvider apiKey={config.googleMapsApiKey}>
         <Map
-          center={belinPosition}
+          center={berlinPosition}
           mapId={'yourfavoritemap'}
           zoom={10}
           backgroundColor={'#000018'}
           styles={darkMapStyle}
         >
-          <FestivalMarker position={belinPosition} />
+          <FestivalMarker position={berlinPosition} />
           <FestivalMarker position={parisPosition} />
         </Map>
       </APIProvider>
+      <DateSlider onDateChange={handleDateChange} />
     </div>
   )
 }

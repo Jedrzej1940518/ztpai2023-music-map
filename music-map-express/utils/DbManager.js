@@ -28,7 +28,7 @@ class DbManager {
   }
   async logUserTable () {
     try {
-      const user = await this.getUserById(0)
+      const user = await this.getUserByEmail('ala@wp.pl')
       console.log('User 0: ', user)
     } catch (error) {
       console.error(

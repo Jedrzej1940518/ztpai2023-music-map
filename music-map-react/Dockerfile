@@ -4,7 +4,7 @@ FROM node:14
 WORKDIR /usr/src/app
 
 # Define dependencies
-ENV DEPS="create-react-app validator cookie moment react-datepicker react-dates @vis.gl/react-google-maps"
+ENV DEPS="create-react-app validator cookie @vis.gl/react-google-maps multi-range-slider-react"
 
 RUN npm install $DEPS
 

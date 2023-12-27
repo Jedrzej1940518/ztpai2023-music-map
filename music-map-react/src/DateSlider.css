@@ -1,0 +1,33 @@
+.bar {
+    width: 100%;
+}
+
+.multi-range-slider {
+    border: 0px;
+    box-shadow: 0px 0px 0px;
+}
+
+.multi-range-slider.bar-left {
+    background-color: #f0f0f0;
+    border-radius: 0px 10px 10px 0px;
+    box-shadow: inset 0px 0px 5px white;
+    padding: 0px 0px;
+}
+
+.multi-range-slider.bar-right {
+    background-color: #f0f0f0;
+    border-radius: 0px 10px 10px 0px;
+    box-shadow: inset 0px 0px 5px white
+}
+
+.multi-range-slider .ruler {
+    color: white;
+}
+
+.multi-range-slider .labels {
+    color: white;
+}
+
+.multi-range-slider .thumb .caption * {
+    background-color: black;
+}
