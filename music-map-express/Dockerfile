@@ -6,9 +6,9 @@ RUN apt-get update \
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+ENV DEPS="cors express jsonwebtoken pg sequelize sequelize-cli cookie cookie-parser sequelize-auto"
 
-RUN npm install
+RUN npm install $DEPS
 
 COPY . .
 

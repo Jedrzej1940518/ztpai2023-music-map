@@ -2,4 +2,6 @@ postgres-data
 
 personal_notes
 
+node_modules
+
 .env

@@ -11,7 +11,10 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
     "validator": "^13.0.0",
-    "cookie": "^0.4.1"
+    "cookie": "^0.4.1",
+    "moment": "^2.30.0",
+    "react-datepicker": "^4.25.0",
+    "react-dates": "^21.8.0"
   },
   "scripts": {
     "start": "react-scripts start",

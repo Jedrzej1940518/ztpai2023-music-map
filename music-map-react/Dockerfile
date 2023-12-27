@@ -3,8 +3,10 @@ FROM node:14
 
 WORKDIR /usr/src/app
 
-RUN npm install -g create-react-app
-RUN npm install @vis.gl/react-google-maps
+# Define dependencies
+ENV DEPS="create-react-app validator cookie moment react-datepicker react-dates @vis.gl/react-google-maps"
+
+RUN npm install $DEPS
 
 RUN npx create-react-app music_map
 

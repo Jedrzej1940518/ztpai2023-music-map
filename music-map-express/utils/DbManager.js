@@ -31,8 +31,8 @@ class DbManager {
     async logUserTable() {
 
         try {
-            const users = await this.User.findAll();
-            console.log('All rows from the "user" table:', users);
+            const user = await this.getUserById(0);
+            console.log('User 0: ', user);
         } catch (error) {
             console.error('Error querying the "user" table - Retrying in 2 seconds:', error);
             setTimeout(() => this.logUserTable(), 2000);
