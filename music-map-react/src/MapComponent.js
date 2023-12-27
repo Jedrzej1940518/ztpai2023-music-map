@@ -1,8 +1,8 @@
 import { APIProvider, Map } from '@vis.gl/react-google-maps'
 import './MapComponent.css'
 import FestivalMarker from './FestivalMarker'
-import DateSlider from './DateSlider' // Adjust the path based on your project structure
-import { useState } from 'react'
+import DateSlider from './DateSlider'
+import { useState, useEffect, useCallback } from 'react'
 
 const config = require('./config')
 
@@ -89,16 +89,37 @@ const darkMapStyle = [
 
 const MapComponent = () => {
   const berlinPosition = { lat: 52.52, lng: 13.405 }
-  const parisPosition = { lat: 48.8566, lng: 2.3522 }
 
   const [startDate, setStartDate] = useState(0)
   const [endDate, setEndDate] = useState(0)
+  const [festivals, setFestivals] = useState([])
 
   const setDates = ({ startDate, endDate }) => {
     setStartDate(startDate)
     setEndDate(endDate)
     console.log('Selected Dates:', startDate, endDate)
   }
+
+  const fetchFestivals = async (startDate, endDate) => {
+    try {
+      const response = await fetch(
+        `${config.festivalDateRangeApi}?startDate=${startDate}&endDate=${endDate}`
+      )
+      const data = await response.json()
+      setFestivals(data.festivals)
+      console.log(`Festivals after`, festivals)
+    } catch (error) {
+      console.error('Error fetching festivals:', error)
+    }
+  }
+
+  const fetchFestivalsCallback = useCallback(() => {
+    fetchFestivals(startDate, endDate)
+  }, [startDate, endDate])
+
+  useEffect(() => {
+    fetchFestivalsCallback()
+  }, [fetchFestivalsCallback])
 
   return (
     <div className={`map-component`}>
@@ -110,13 +131,20 @@ const MapComponent = () => {
           backgroundColor={'#000018'}
           styles={darkMapStyle}
         >
-          <FestivalMarker position={berlinPosition} />
-          <FestivalMarker position={parisPosition} />
+          {festivals.map(festival => (
+            <FestivalMarker
+              id={festival.id}
+              name={festival.name}
+              position={{
+                lat: festival.latitude,
+                lng: festival.longitude
+              }}
+            />
+          ))}
         </Map>
       </APIProvider>
       <DateSlider setDates={setDates} />
     </div>
   )
 }
-
 export default MapComponent

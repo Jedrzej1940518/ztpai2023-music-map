@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#removes current models dir
+sudo rm -rf ./models
 #copies models from abckend into /tmp/
 sudo docker cp backend:/usr/src/app/models /tmp/
 

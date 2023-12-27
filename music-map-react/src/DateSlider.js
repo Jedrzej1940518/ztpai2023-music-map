@@ -1,18 +1,11 @@
 //https://codesandbox.io/p/sandbox/range-slider-date-range-ndngb6?file=%2Fsrc%2FApp.tsx
 
 import { useState } from 'react'
-// eslint-disable-next-line
-import MultiRangeSlider, { ChangeResult } from 'multi-range-slider-react'
+import MultiRangeSlider from 'multi-range-slider-react'
 import './DateSlider.css'
 
 export default function DateSlider ({ setDates }) {
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  const [minValue, setMinValue] = useState(0)
-  const [maxValue, setMaxValue] = useState(0)
-  // eslint-disable-next-line
-  const [minValue2, setMinValue2] = useState(0)
-  // eslint-disable-next-line
-  const [maxValue2, setMaxValue2] = useState(0)
 
   // Date Range Selection methods/state/constants
   const monthNames = [
@@ -42,6 +35,18 @@ export default function DateSlider ({ setDates }) {
     dateStr = weekDays[w] + ' ' + d + '-' + monthNames[m] + '-' + y
     return dateStr
   }
+  const intToDate = i => {
+    let date = new Date()
+    let dd1 = new Date(date.getFullYear(), 0, 1)
+    dd1.setDate(i + 1)
+
+    let dateStr = ''
+    let d = dd1.getDate()
+    let m = dd1.getMonth() + 1
+    let y = dd1.getFullYear()
+    dateStr = y + '-' + m + '-' + d
+    return dateStr
+  }
   const handleDateChange = e => {
     let d = new Date()
     let dd1 = new Date(d.getFullYear(), 0, 1)
@@ -52,9 +57,6 @@ export default function DateSlider ({ setDates }) {
 
     set_minMonthCaption(formatDate(dd1))
     set_maxMonthCaption(formatDate(dd2))
-    setMinValue(e.minValue)
-    setMaxValue(e.maxValue)
-    setDates({ startDate: minValue, endDate: maxValue })
   }
   return (
     <div className='DateSlider'>
@@ -70,8 +72,10 @@ export default function DateSlider ({ setDates }) {
           maxCaption={maxMonthCaption}
           onInput={handleDateChange}
           onChange={e => {
-            setMinValue2(e.minValue)
-            setMaxValue2(e.maxValue)
+            setDates({
+              startDate: intToDate(e.minValue),
+              endDate: intToDate(e.maxValue)
+            })
           }}
         />
       </div>

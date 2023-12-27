@@ -7,7 +7,7 @@ import {
   useAdvancedMarkerRef
 } from '@vis.gl/react-google-maps'
 
-const FestivalMarker = ({ position }) => {
+const FestivalMarker = ({ id, name, position }) => {
   const [infowindowOpen, setInfowindowOpen] = useState(false)
   const [markerRef, marker] = useAdvancedMarkerRef()
 
@@ -26,11 +26,13 @@ const FestivalMarker = ({ position }) => {
           onCloseClick={() => setInfowindowOpen(false)}
         >
           <div>
-            <p>This is an example for the </p>
+            <p>
+              Festival ID {id} : {name}
+            </p>
             <img
               src={process.env.PUBLIC_URL + '/logo192.png'}
               alt=''
-              style={{ maxWidth: '100%' }}
+              style={{ maxWidth: '20%' }}
             />
           </div>
         </InfoWindow>

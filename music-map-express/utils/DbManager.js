@@ -11,6 +11,7 @@ class DbManager {
       database: process.env.POSTGRES_DB
     })
     this.User = require('../models/user')(this.sequelize, Sequelize)
+    this.Festival = require('../models/festival')(this.sequelize, Sequelize)
   }
 
   async initializeDatabase () {
@@ -96,6 +97,26 @@ class DbManager {
     } catch (error) {
       console.error('Error registering user:', error.message)
       return { success: false, error: error.message }
+    }
+  }
+
+  async getFestivalsByDateRange (startDate, endDate) {
+    try {
+      const festivals = await this.Festival.findAll({
+        where: {
+          start_date: {
+            [Sequelize.Op.between]: [startDate, endDate]
+          }
+        }
+      })
+
+      return festivals
+    } catch (error) {
+      console.error(
+        'Error querying the database for festivals by date range:',
+        error
+      )
+      throw error
     }
   }
 }
