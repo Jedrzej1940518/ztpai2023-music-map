@@ -1,0 +1,17 @@
+{
+  "name": "music-map-express",
+  "version": "1.0.0",
+  "description": "music festivals across the world",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-models": "sequelize-auto -o './models' -d music_map_db -h 172.17.0.1 -u admin -p 5432 -x admin -e postgres",
+    "start": "npm run generate-models && node server.js"
+  },
+  "author": "Jedrzej Klamra",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "sequelize-auto": "^0.8.8"
+  }
+}

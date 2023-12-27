@@ -1,8 +1,8 @@
 //https://codesandbox.io/p/sandbox/range-slider-date-range-ndngb6?file=%2Fsrc%2FApp.tsx
 
-import './DateSlider.css'
 import { useState } from 'react'
 import MultiRangeSlider, { ChangeResult } from 'multi-range-slider-react'
+import './DateSlider.css'
 
 export default function DateSlider () {
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']

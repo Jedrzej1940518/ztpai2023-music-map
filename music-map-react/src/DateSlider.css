@@ -7,14 +7,14 @@
     box-shadow: 0px 0px 0px;
 }
 
-.multi-range-slider.bar-left {
+.multi-range-slider .bar-left {
     background-color: #f0f0f0;
     border-radius: 0px 10px 10px 0px;
     box-shadow: inset 0px 0px 5px white;
     padding: 0px 0px;
 }
 
-.multi-range-slider.bar-right {
+.multi-range-slider .bar-right {
     background-color: #f0f0f0;
     border-radius: 0px 10px 10px 0px;
     box-shadow: inset 0px 0px 5px white
