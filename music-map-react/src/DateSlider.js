@@ -1,14 +1,17 @@
 //https://codesandbox.io/p/sandbox/range-slider-date-range-ndngb6?file=%2Fsrc%2FApp.tsx
 
 import { useState } from 'react'
+// eslint-disable-next-line
 import MultiRangeSlider, { ChangeResult } from 'multi-range-slider-react'
 import './DateSlider.css'
 
-export default function DateSlider () {
+export default function DateSlider ({ setDates }) {
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const [minValue, setMinValue] = useState(0)
   const [maxValue, setMaxValue] = useState(0)
+  // eslint-disable-next-line
   const [minValue2, setMinValue2] = useState(0)
+  // eslint-disable-next-line
   const [maxValue2, setMaxValue2] = useState(0)
 
   // Date Range Selection methods/state/constants
@@ -51,6 +54,7 @@ export default function DateSlider () {
     set_maxMonthCaption(formatDate(dd2))
     setMinValue(e.minValue)
     setMaxValue(e.maxValue)
+    setDates({ startDate: minValue, endDate: maxValue })
   }
   return (
     <div className='DateSlider'>
