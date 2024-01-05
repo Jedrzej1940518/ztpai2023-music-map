@@ -31,11 +31,13 @@ const App = () => {
   }, [userUtils])
 
   return (
-    <div>
+    <div className='main-container'>
       <div className='header-container'>
         <div className='left-section'>
-          <HamburgerMenu />
-          <div className='header-text'>Music-Map</div>
+          <div className='hamburger-container'>
+            <HamburgerMenu />
+            <div className='header-text'>Music-Map</div>
+          </div>
         </div>
         <SignIn
           setShowLoginPanel={setShowLoginPanel}
@@ -47,7 +49,15 @@ const App = () => {
         />{' '}
         {}
       </div>
-      <MapComponent />
+      <div className='center-container'>
+        <MapComponent />;
+        <div className='genres-container'>
+          <div className='header-text'>Genre 1</div>
+          <div className='header-text'>Genre 2</div>
+          <div className='header-text'>Genre 3</div>
+          <div className='header-text'>Genre 4</div>
+        </div>
+      </div>
       <RegisterPanel
         showRegisterPanel={showRegisterPanel}
         setShowRegisterPanel={setShowRegisterPanel}
