@@ -12,7 +12,7 @@ const SignIn = ({
   const [showSignOptions, setShowSignOptions] = useState(false)
   const [signedIn, setSignedIn] = useState(false)
 
-  const userUtils = require('./userUtils')
+  const userUtils = require('./../userUtils')
 
   useEffect(() => {
     setSignedIn(userData)

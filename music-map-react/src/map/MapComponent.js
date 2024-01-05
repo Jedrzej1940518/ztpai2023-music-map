@@ -4,7 +4,7 @@ import FestivalMarker from './FestivalMarker'
 import DateSlider from './DateSlider'
 import { useState, useEffect, useCallback } from 'react'
 
-const config = require('./config')
+const config = require('./../config')
 
 const darkMapStyle = [
   { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },

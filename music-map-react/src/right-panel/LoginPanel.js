@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import './LoginPanel.css'
-import './Common.css'
+import '../Common.css'
 
-const userUtils = require('./userUtils')
-const config = require('./config')
+const userUtils = require('./../userUtils')
+const config = require('./../config')
 
 const LoginPanel = ({
   showLoginPanel,
