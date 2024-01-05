@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import './HamburgerMenu.css'
 
-const HamburgerMenu = () => {
+const HamburgerMenu = ({ setShowGenres }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
+    setShowGenres(!isOpen)
   }
 
   return (

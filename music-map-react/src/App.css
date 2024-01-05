@@ -43,11 +43,6 @@ body {
   flex-direction: column;
 }
 
-.genres-container {
-  width: 300px;
-  position: fixed;
-}
-
 .center-container {
   display: flex;
   align-items: center;
