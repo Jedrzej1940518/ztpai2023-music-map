@@ -90,8 +90,8 @@ const darkMapStyle = [
 const MapComponent = () => {
   const berlinPosition = { lat: 52.52, lng: 13.405 }
 
-  const [startDate, setStartDate] = useState(0)
-  const [endDate, setEndDate] = useState(0)
+  const [startDate, setStartDate] = useState('2024-01-01')
+  const [endDate, setEndDate] = useState('2024-12-31')
   const [festivals, setFestivals] = useState([])
 
   const setDates = ({ startDate, endDate }) => {

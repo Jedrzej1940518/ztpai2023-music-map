@@ -27,8 +27,7 @@ class FestivalRouter {
 
     const festivals = await this.db.getFestivalsByDateRange(startDate, endDate)
 
-    console.log('Festivals:', festivals)
-    res.json({ festivals })
+    res.json({ message: 'success', festivals: festivals })
   }
 }
 

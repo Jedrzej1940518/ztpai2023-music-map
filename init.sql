@@ -16,15 +16,15 @@ CREATE TABLE IF NOT EXISTS "festival" (
     longitude DOUBLE PRECISION NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    music_genre VARCHAR(50) -- You can use VARCHAR for music genre
+    music_genre VARCHAR(50)
 );
 
 INSERT INTO "user" (nickname, email, password) VALUES ('Ala', 'ala@wp.pl', 'ala');
 
 INSERT INTO "festival" (name, latitude, longitude, start_date, end_date, music_genre) 
 VALUES 
-    ('Berlin music festival', 52.5200, 13.4050, '2023-07-01', '2023-07-03', 'Deephouse'),
-    ('Paris music festival', 48.8566, 2.3522, '2023-08-15', '2023-08-18', 'Rap');
+    ('Berlin music festival', 52.5200, 13.4050, '2024-07-01', '2024-07-03', 'Deephouse'),
+    ('Paris music festival', 48.8566, 2.3522, '2024-08-15', '2024-08-18', 'Rap');
 
 UPDATE "user" 
 SET saved_festivals = ARRAY(

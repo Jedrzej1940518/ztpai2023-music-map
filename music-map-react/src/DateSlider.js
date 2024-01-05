@@ -36,16 +36,13 @@ export default function DateSlider ({ setDates }) {
     return dateStr
   }
   const intToDate = i => {
-    let date = new Date()
-    let dd1 = new Date(date.getFullYear(), 0, 1)
-    dd1.setDate(i + 1)
+    var baseDate = new Date('2024-01-01')
 
-    let dateStr = ''
-    let d = dd1.getDate()
-    let m = dd1.getMonth() + 1
-    let y = dd1.getFullYear()
-    dateStr = y + '-' + m + '-' + d
-    return dateStr
+    var targetDate = new Date(baseDate.getTime() + i * 24 * 60 * 60 * 1000)
+
+    var isoFormattedDate = targetDate.toISOString().split('T')[0]
+
+    return isoFormattedDate
   }
   const handleDateChange = e => {
     let d = new Date()
