@@ -17,6 +17,8 @@ const App = () => {
   const [showSignedIn, setShowSignedIn] = useState(true)
   const [userData, setUserData] = useState(null)
 
+  const [checkedGenres, setCheckedGenres] = useState(['Rap', 'Deephouse'])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,8 +53,11 @@ const App = () => {
         {}
       </div>
       <div className='center-container'>
-        <MapComponent />;
-        <GenreComponent showGenres={showGenres} />;
+        <MapComponent checkedGenres={checkedGenres} />;
+        <GenreComponent
+          showGenres={showGenres}
+          setCheckedGenres={setCheckedGenres}
+        />
       </div>
       <RegisterPanel
         showRegisterPanel={showRegisterPanel}

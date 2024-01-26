@@ -14,18 +14,16 @@ const LoginPanel = ({
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const [error, setError] = useState('')
-
-  const setErrorMessage = message => {
-    setError(message)
-  }
+  const [message, setMessage] = useState('')
+  const [isError, setIsError] = useState(false)
 
   const handleSignIn = () => {
     const requestBody = {
       email: email,
       password: password
     }
-    setErrorMessage('')
+    setIsError(false)
+    setMessage('')
     fetch(config.singInApi, {
       method: 'POST',
       headers: {
@@ -34,17 +32,24 @@ const LoginPanel = ({
       body: JSON.stringify(requestBody)
     })
       .then(response => {
-        if (!response.ok)
-          throw new Error(`HTTP error! Status: ${response.status}`)
-
-        return response.json()
+        return response.json().then(data => {
+          if (!response.ok) {
+            throw new Error(
+              data.message || `HTTP error! Status: ${response.status}`
+            )
+          }
+          return data
+        })
       })
       .then(data => {
         console.log('Sign in requested', data)
-        if (!data.success) setErrorMessage(data.message)
-        else {
+        if (!data.success) {
+          setIsError(true)
+          setMessage(data.message)
+        } else {
           userUtils.storeTokenInCookie(data.token)
           setUserData(data.user)
+          setMessage(`User successfully signed in as ${data.user.nickname}`)
           console.log(
             `Signed in as ${data.user.nickname} with token ${data.token}`
           )
@@ -52,18 +57,19 @@ const LoginPanel = ({
       })
       .catch(e => {
         console.error('Error signing in:', e)
-        setErrorMessage(e.message || 'An error occurred')
+        setIsError(true)
+        setMessage(e.message || 'An error occurred')
       })
   }
   const handleMouseEnter = () => {
     setShowLoginPanel(true)
     setShowSignedIn(false)
-    setErrorMessage('')
+    setMessage('')
   }
   const handleMouseLeave = () => {
     setShowLoginPanel(false)
     setShowSignedIn(true)
-    setErrorMessage('')
+    setMessage('')
   }
 
   return (
@@ -90,7 +96,9 @@ const LoginPanel = ({
         <button className='button-style' onClick={handleSignIn}>
           Sign In
         </button>
-        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {message && (
+          <div style={{ color: isError ? 'red' : 'green' }}>{message}</div>
+        )}
       </div>
     </div>
   )

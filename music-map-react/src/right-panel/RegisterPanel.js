@@ -12,12 +12,10 @@ const RegisterPanel = ({
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [repPassword, setRepPassword] = useState('')
-  const [error, setError] = useState('')
   const [nickname, setNickname] = useState('')
 
-  const setErrorMessage = message => {
-    setError(message)
-  }
+  const [message, setMessage] = useState('')
+  const [isError, setIsError] = useState(false)
 
   const handleRegister = () => {
     const requestBody = {
@@ -26,7 +24,8 @@ const RegisterPanel = ({
       password: password,
       repPassword: repPassword
     }
-    setErrorMessage('')
+    setMessage('')
+    setIsError(false)
 
     fetch(config.registerApi, {
       method: 'POST',
@@ -36,32 +35,39 @@ const RegisterPanel = ({
       body: JSON.stringify(requestBody)
     })
       .then(response => {
-        if (!response.ok) {
-          setErrorMessage(response.message)
-          console.log(error, response.message)
-        }
-        return response.json()
+        return response.json().then(data => {
+          if (!response.ok) {
+            throw new Error(
+              data.message || `HTTP error! Status: ${response.status}`
+            )
+          }
+          return data
+        })
       })
       .then(data => {
         console.log('User registration', data)
         if (!data.success) {
-          setErrorMessage(data.message)
-          console.log('Registration failed', data)
-        } else console.log('Registration Suceeded', data)
+          setIsError(true)
+          setMessage(data.message)
+        } else {
+          setMessage('Registration successful')
+        }
       })
       .catch(err => {
-        console.error('Error signing in:', err)
+        setIsError(true)
+        console.error('Error registering:', err)
+        setMessage(err.message || 'An error occurred during registration')
       })
   }
   const handleMouseEnter = () => {
     setShowRegisterPanel(true)
     setShowSignedIn(false)
-    setError('')
+    setMessage('')
   }
   const handleMouseLeave = () => {
     setShowRegisterPanel(false)
     setShowSignedIn(true)
-    setError('')
+    setMessage('')
   }
 
   return (
@@ -102,7 +108,9 @@ const RegisterPanel = ({
         <button className='button-style' onClick={handleRegister}>
           Register
         </button>
-        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {message && (
+          <div style={{ color: isError ? 'red' : 'green' }}>{message}</div>
+        )}
       </div>
     </div>
   )

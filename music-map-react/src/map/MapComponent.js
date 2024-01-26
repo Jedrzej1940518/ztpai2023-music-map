@@ -87,12 +87,13 @@ const darkMapStyle = [
   }
 ]
 
-const MapComponent = () => {
+const MapComponent = ({ checkedGenres }) => {
   const berlinPosition = { lat: 52.52, lng: 13.405 }
 
   const [startDate, setStartDate] = useState('2024-01-01')
   const [endDate, setEndDate] = useState('2024-12-31')
   const [festivals, setFestivals] = useState([])
+  const favoritesOnly = checkedGenres.includes('favorites')
 
   const setDates = ({ startDate, endDate }) => {
     setStartDate(startDate)
@@ -131,16 +132,19 @@ const MapComponent = () => {
           backgroundColor={'#000018'}
           styles={darkMapStyle}
         >
-          {festivals.map(festival => (
-            <FestivalMarker
-              id={festival.id}
-              name={festival.name}
-              position={{
-                lat: festival.latitude,
-                lng: festival.longitude
-              }}
-            />
-          ))}
+          {festivals //render only checked genres
+            .filter(festival => checkedGenres.includes(festival.music_genre))
+            .map(festival => (
+              <FestivalMarker
+                id={festival.id}
+                name={festival.name}
+                position={{
+                  lat: festival.latitude,
+                  lng: festival.longitude
+                }}
+                genre={festival.music_genre}
+              />
+            ))}
         </Map>
       </APIProvider>
       <DateSlider setDates={setDates} />

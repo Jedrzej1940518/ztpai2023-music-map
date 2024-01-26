@@ -1,0 +1,15 @@
+.genre-container {
+    width: 200px;
+    height: 50px;
+    background-color: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.genre-container.checked {
+    background-color: lightblue;
+}
