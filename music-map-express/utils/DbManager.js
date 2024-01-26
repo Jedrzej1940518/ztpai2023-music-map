@@ -87,9 +87,10 @@ class DbManager {
   async registerUser (email, nickname, password) {
     try {
       const newUser = await this.User.create({
-        email,
-        nickname,
-        password
+        email: email,
+        nickname: nickname,
+        password: password,
+        favorite_festivals: []
       })
 
       console.log('User registered:', newUser.email)

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     nickname VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    favorite_festivals INTEGER[] -- IDs of saved festivals
+    favorite_festivals INTEGER[] NOT NULL -- IDs of saved festivals
 );
 
 CREATE TABLE IF NOT EXISTS "festival" (
@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS "festival" (
     music_genre VARCHAR(50)
 );
 
-INSERT INTO "user" (nickname, email, password) VALUES ('Ala', 'ala@wp.pl', 'ala');
+INSERT INTO "user" (nickname, email, password, favorite_festivals) 
+VALUES ('Ala', 'ala@wp.pl', 'ala', ARRAY[]::INTEGER[]);
 
 INSERT INTO "festival" (name, latitude, longitude, start_date, end_date, music_genre) 
 VALUES 

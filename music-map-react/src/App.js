@@ -28,6 +28,8 @@ const App = () => {
     const fetchData = async () => {
       try {
         const user = await userUtils.getUserData()
+        if (user == null) return
+
         setUserData(user.user)
         console.log('User data:', user)
       } catch (error) {

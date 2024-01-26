@@ -83,7 +83,7 @@ const MapComponent = ({ checkedGenres, userLoggedIn }) => {
 
   const setFavoritesAndGenres = async () => {
     const user = await userUtils.getUserData()
-    if (user) {
+    if (user != null && user.user != null) {
       setFavoriteFestivals(user.user.favorite_festivals)
       setFavoritesOnly(checkedGenres.includes('Favorites'))
     }

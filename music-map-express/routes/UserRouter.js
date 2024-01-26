@@ -3,6 +3,7 @@ const DbManager = require('../utils/DbManager')
 const JWTManager = require('../auth/JWTManager')
 const config = require('../config/config')
 const validator = require('validator')
+const bcrypt = require('bcrypt')
 
 class UserRouter {
   constructor () {
@@ -22,6 +23,11 @@ class UserRouter {
       this.setFavoriteFestival.bind(this)
     )
   }
+
+  async hashPassword (password) {
+    return await bcrypt.hash(password, 10)
+  }
+
   async setFavoriteFestival (req, res) {
     this.jwtManager
       .authenticateToken(req)
@@ -78,23 +84,30 @@ class UserRouter {
     const { email, password } = req.body
 
     try {
-      const user = await this.db.getUserByEmailAndPassword(email, password)
+      const user = await this.db.getUserByEmail(email)
 
-      if (user) {
-        const token = this.jwtManager.generateToken(user)
-        this.jwtManager.setCookie(res, 'token', token)
-
-        res.status(200).json({
-          success: true,
-          message: 'Sign in successful',
-          user: user,
-          token: token
-        })
-      } else {
-        res
-          .status(401)
-          .json({ success: false, message: 'Invalid email or password' })
+      if (!user) {
+        return res
+          .status(404)
+          .json({ success: false, message: 'User not found.' })
       }
+
+      const match = await bcrypt.compare(password, user.password)
+      if (!match) {
+        return res
+          .status(401)
+          .json({ success: false, message: 'Invalid password' })
+      }
+
+      const token = this.jwtManager.generateToken(user)
+      this.jwtManager.setCookie(res, 'token', token)
+
+      return res.status(200).json({
+        success: true,
+        message: 'Sign in successful',
+        user: user,
+        token: token
+      })
     } catch (error) {
       console.error('Error querying the database:', error)
       res.status(500).json({ success: false, message: 'Internal server error' })
@@ -117,7 +130,8 @@ class UserRouter {
       } else if (!validator.isEmail(email)) {
         res.status(401).json({ success: false, message: 'Invalid email!' })
       } else {
-        this.db.registerUser(email, nickname, password).then(result => {
+        let hashedPassword = await this.hashPassword(password)
+        this.db.registerUser(email, nickname, hashedPassword).then(result => {
           if (result.success) {
             console.log('Registration successful!')
             res

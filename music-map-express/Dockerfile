@@ -6,7 +6,7 @@ RUN apt-get update \
 
 WORKDIR /usr/src/app
 
-ENV DEPS="cors express jsonwebtoken pg sequelize sequelize-cli cookie cookie-parser sequelize-auto"
+ENV DEPS="cors express jsonwebtoken pg sequelize sequelize-cli cookie cookie-parser sequelize-auto bcrypt"
 
 RUN npm install $DEPS
 

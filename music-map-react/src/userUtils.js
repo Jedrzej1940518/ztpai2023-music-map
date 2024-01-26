@@ -23,7 +23,7 @@ const getTokenFromCookie = cookieName => {
 const getUserData = () => {
   const token = getTokenFromCookie('token')
   if (!token) {
-    return Promise.reject('Token not available')
+    return null
   }
 
   return fetch(config.userApi, {
