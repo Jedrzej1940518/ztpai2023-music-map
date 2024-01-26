@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 const config = require('./../config')
 const userUtils = require('./../userUtils')
 
-const MapComponent = ({ checkedGenres, userLoggedIn }) => {
+const MapComponent = ({ checkedGenres, userChanged }) => {
   const berlinPosition = { lat: 52.52, lng: 13.405 }
 
   const [startDate, setStartDate] = useState('2024-01-01')
@@ -51,10 +51,6 @@ const MapComponent = ({ checkedGenres, userLoggedIn }) => {
     console.log('Selected Dates:', startDate, endDate)
   }
 
-  const getIsFavorited = festivalId => {
-    return favoriteFestivals.includes(festivalId)
-  }
-
   const fetchFestivals = async () => {
     try {
       const response = await fetch(
@@ -85,14 +81,16 @@ const MapComponent = ({ checkedGenres, userLoggedIn }) => {
     const user = await userUtils.getUserData()
     if (user != null && user.user != null) {
       setFavoriteFestivals(user.user.favorite_festivals)
-      setFavoritesOnly(checkedGenres.includes('Favorites'))
+    } else {
+      setFavoriteFestivals([])
     }
+    setFavoritesOnly(checkedGenres.includes('Favorites'))
     setCurrentGenres(checkedGenres)
   }
 
   useEffect(() => {
     setFavoritesAndGenres()
-  }, [checkedGenres, userLoggedIn])
+  }, [checkedGenres, userChanged])
 
   useEffect(() => {
     fetchFestivals()
@@ -117,7 +115,7 @@ const MapComponent = ({ checkedGenres, userLoggedIn }) => {
                 lat: festival.latitude,
                 lng: festival.longitude
               }}
-              getIsFavorited={getIsFavorited}
+              favoriteFestivals={favoriteFestivals}
               handleFavoriteChange={handleFavoriteChange}
             />
           ))}

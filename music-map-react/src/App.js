@@ -16,12 +16,13 @@ const App = () => {
   const [showRegisterPanel, setShowRegisterPanel] = useState(false)
   const [showSignedIn, setShowSignedIn] = useState(true)
   const [userData, setUserData] = useState(null)
-  const [userLoggedIn, setUserLoggedIn] = useState(false)
+
+  const [userChanged, setUserChanged] = useState(false)
 
   const [checkedGenres, setCheckedGenres] = useState(['Rap', 'Deephouse'])
 
   useEffect(() => {
-    setUserLoggedIn(userData != null)
+    setUserChanged(!userChanged)
   }, [userData])
 
   useEffect(() => {
@@ -60,10 +61,7 @@ const App = () => {
         {}
       </div>
       <div className='center-container'>
-        <MapComponent
-          checkedGenres={checkedGenres}
-          userLoggedIn={userLoggedIn}
-        />
+        <MapComponent checkedGenres={checkedGenres} userChanged={userChanged} />
         ;
         <GenreComponent
           showGenres={showGenres}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   AdvancedMarker,
   InfoWindow,
@@ -16,18 +16,22 @@ const FestivalMarker = ({
   id,
   name,
   position,
-  getIsFavorited,
+  favoriteFestivals,
   handleFavoriteChange
 }) => {
   const [infowindowOpen, setInfowindowOpen] = useState(false)
   const [markerRef, marker] = useAdvancedMarkerRef()
-  const [isFavorited, setIsFavortied] = useState(getIsFavorited(id))
+  const [isFavorited, setIsFavortied] = useState(favoriteFestivals.includes(id))
 
   const handleAddToFavorites = () => {
     const newVal = !isFavorited
     setIsFavortied(newVal)
     handleFavoriteChange(id, newVal)
   }
+
+  useEffect(() => {
+    setIsFavortied(favoriteFestivals.includes(id))
+  }, [favoriteFestivals])
 
   return (
     <>
