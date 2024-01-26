@@ -38,7 +38,7 @@ class JWTManager {
         reject({ success: false, message: 'Unauthorized', user_data: null })
       }
 
-      jwt.verify(token, process.env.JWT_SECRET, (err, user_data) => {
+      jwt.verify(token, this.secret, (err, user_data) => {
         if (err) {
           reject({ success: false, message: 'Invalid token', user_data: null })
         }

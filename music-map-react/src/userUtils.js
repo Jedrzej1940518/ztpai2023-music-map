@@ -38,7 +38,7 @@ const getUserData = () => {
         throw new Error(`HTTP error! Status: ${response.status}`)
       }
 
-      return response.json() // Return the parsed JSON data
+      return response.json()
     })
     .then(data => {
       console.log('User data:', data)

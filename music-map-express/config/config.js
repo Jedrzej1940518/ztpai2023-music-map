@@ -3,6 +3,7 @@ const port = process.env.BACKEND_PORT
 const userApi = `/api/user`
 const singInApi = `/signin`
 const registerApi = '/register'
+const setFavoriteFestivalApi = `/favorite`
 
 const festivalApi = `/api/festival`
 
@@ -11,5 +12,6 @@ module.exports = {
   userApi,
   festivalApi,
   singInApi,
-  registerApi
+  registerApi,
+  setFavoriteFestivalApi
 }

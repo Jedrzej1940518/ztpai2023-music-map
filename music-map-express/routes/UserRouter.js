@@ -17,13 +17,41 @@ class UserRouter {
     this.router.get('/:id', this.getUserDetails.bind(this))
     this.router.post(config.singInApi, this.signIn.bind(this))
     this.router.post(config.registerApi, this.register.bind(this))
+    this.router.post(
+      config.setFavoriteFestivalApi,
+      this.setFavoriteFestival.bind(this)
+    )
+  }
+  async setFavoriteFestival (req, res) {
+    this.jwtManager
+      .authenticateToken(req)
+      .then(({ user_data }) => {
+        const { festivalId, value } = req.body
+
+        this.db
+          .updateFavoriteFestivals(user_data.userId, festivalId, value)
+          .then(() => {
+            res.json({
+              success: true,
+              message: 'Favorite status updated successfully.'
+            })
+          })
+          .catch(error => {
+            console.error('Database operation failed:', error)
+            res
+              .status(500)
+              .json({ success: false, message: 'Internal server error' })
+          })
+      })
+      .catch(authError => {
+        res.status(401).json(authError)
+      })
   }
 
   async getUserApi (req, res) {
     this.jwtManager
       .authenticateToken(req)
       .then(result => {
-        console.log(result) // Use the result as needed
         if (result.success) {
           this.db.getUserById(result.user_data.userId).then(user_res => {
             res
@@ -36,7 +64,7 @@ class UserRouter {
             .json({ success: false, message: 'coudlnt find user', user: null })
       })
       .catch(error => {
-        console.error(error) // Handle errors
+        console.error(error)
         res.status(401).json({ success: false, message: error, user: null })
       })
   }
@@ -56,14 +84,12 @@ class UserRouter {
         const token = this.jwtManager.generateToken(user)
         this.jwtManager.setCookie(res, 'token', token)
 
-        res
-          .status(200)
-          .json({
-            success: true,
-            message: 'Sign in successful',
-            user: user,
-            token: token
-          })
+        res.status(200).json({
+          success: true,
+          message: 'Sign in successful',
+          user: user,
+          token: token
+        })
       } else {
         res
           .status(401)

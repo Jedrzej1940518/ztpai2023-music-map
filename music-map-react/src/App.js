@@ -16,8 +16,13 @@ const App = () => {
   const [showRegisterPanel, setShowRegisterPanel] = useState(false)
   const [showSignedIn, setShowSignedIn] = useState(true)
   const [userData, setUserData] = useState(null)
+  const [userLoggedIn, setUserLoggedIn] = useState(false)
 
   const [checkedGenres, setCheckedGenres] = useState(['Rap', 'Deephouse'])
+
+  useEffect(() => {
+    setUserLoggedIn(userData != null)
+  }, [userData])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +36,7 @@ const App = () => {
     }
 
     fetchData()
-  }, [userUtils])
+  }, [])
 
   return (
     <div className='main-container'>
@@ -53,7 +58,11 @@ const App = () => {
         {}
       </div>
       <div className='center-container'>
-        <MapComponent checkedGenres={checkedGenres} />;
+        <MapComponent
+          checkedGenres={checkedGenres}
+          userLoggedIn={userLoggedIn}
+        />
+        ;
         <GenreComponent
           showGenres={showGenres}
           setCheckedGenres={setCheckedGenres}

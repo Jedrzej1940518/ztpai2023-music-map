@@ -99,6 +99,39 @@ class DbManager {
       return { success: false, error: error.message }
     }
   }
+  async updateFavoriteFestivals (userId, festivalId, value) {
+    try {
+      const user = await this.getUserById(userId)
+
+      if (!user) {
+        console.error('User not found')
+        return { success: false, error: 'User not found' }
+      }
+
+      let favorites = user.favorite_festivals || []
+
+      if (value) {
+        if (!favorites.includes(festivalId)) {
+          favorites.push(festivalId)
+        }
+      } else {
+        favorites = favorites.filter(id => id !== festivalId)
+      }
+      await this.User.update(
+        { favorite_festivals: favorites },
+        {
+          where: {
+            id: user.id
+          }
+        }
+      )
+      console.log('Favorite festivals updated:', user.favorite_festivals)
+      return { success: true, user: user }
+    } catch (error) {
+      console.error('Error updating favorite festivals:', error.message)
+      return { success: false, error: error.message }
+    }
+  }
 
   async getFestivalsByDateRange (startDate, endDate) {
     try {

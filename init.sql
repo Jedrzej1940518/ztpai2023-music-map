@@ -5,8 +5,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     nickname VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    saved_festivals INTEGER[] -- IDs of saved festivals
-
+    favorite_festivals INTEGER[] -- IDs of saved festivals
 );
 
 CREATE TABLE IF NOT EXISTS "festival" (
@@ -27,7 +26,7 @@ VALUES
     ('Paris music festival', 48.8566, 2.3522, '2024-08-15', '2024-08-18', 'Rap');
 
 UPDATE "user" 
-SET saved_festivals = ARRAY(
-    SELECT id FROM "festival" WHERE name IN ('Paris music festival', 'Berlin music festival')
+SET favorite_festivals = ARRAY(
+    SELECT id FROM "festival" WHERE name IN ('Paris music festival')
 )
 WHERE email = 'ala@wp.pl';

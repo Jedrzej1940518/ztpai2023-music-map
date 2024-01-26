@@ -2,98 +2,48 @@ import { APIProvider, Map } from '@vis.gl/react-google-maps'
 import './MapComponent.css'
 import FestivalMarker from './FestivalMarker'
 import DateSlider from './DateSlider'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 
 const config = require('./../config')
+const userUtils = require('./../userUtils')
 
-const darkMapStyle = [
-  { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-  { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
-  { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
-  {
-    featureType: 'administrative.locality',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#d59563' }]
-  },
-  {
-    featureType: 'poi',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#d59563' }]
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'geometry',
-    stylers: [{ color: '#263c3f' }]
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#6b9a76' }]
-  },
-  {
-    featureType: 'road',
-    elementType: 'geometry',
-    stylers: [{ color: '#38414e' }]
-  },
-  {
-    featureType: 'road',
-    elementType: 'geometry.stroke',
-    stylers: [{ color: '#212a37' }]
-  },
-  {
-    featureType: 'road',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#9ca5b3' }]
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'geometry',
-    stylers: [{ color: '#746855' }]
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'geometry.stroke',
-    stylers: [{ color: '#1f2835' }]
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#f3d19c' }]
-  },
-  {
-    featureType: 'transit',
-    elementType: 'geometry',
-    stylers: [{ color: '#2f3948' }]
-  },
-  {
-    featureType: 'transit.station',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#d59563' }]
-  },
-  {
-    featureType: 'water',
-    elementType: 'geometry',
-    stylers: [{ color: '#17263c' }]
-  },
-  {
-    featureType: 'water',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#515c6d' }]
-  },
-  {
-    featureType: 'water',
-    elementType: 'labels.text.stroke',
-    stylers: [{ color: '#17263c' }]
-  }
-]
-
-const MapComponent = ({ checkedGenres }) => {
+const MapComponent = ({ checkedGenres, userLoggedIn }) => {
   const berlinPosition = { lat: 52.52, lng: 13.405 }
 
   const [startDate, setStartDate] = useState('2024-01-01')
   const [endDate, setEndDate] = useState('2024-12-31')
   const [festivals, setFestivals] = useState([])
-  const favoritesOnly = checkedGenres.includes('favorites')
+
+  const [currentGenres, setCurrentGenres] = useState([])
+  const [favoriteFestivals, setFavoriteFestivals] = useState([])
+  const [favoritesOnly, setFavoritesOnly] = useState(false)
+
+  const handleFavoriteChange = async (festivalId, value) => {
+    const user = await userUtils.getUserData()
+    if (!user) return
+    const token = userUtils.getTokenFromCookie('token')
+    try {
+      const response = await fetch(config.favoriteFestivalApi, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          festivalId: festivalId,
+          value: value
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok)
+        throw new Error(data.message || 'Failed to update favorite festivals')
+      setFavoritesAndGenres()
+      console.log('Favorite status updated successfully:', data)
+    } catch (error) {
+      console.error('Error updating favorite status:', error)
+    }
+  }
 
   const setDates = ({ startDate, endDate }) => {
     setStartDate(startDate)
@@ -101,26 +51,52 @@ const MapComponent = ({ checkedGenres }) => {
     console.log('Selected Dates:', startDate, endDate)
   }
 
-  const fetchFestivals = async (startDate, endDate) => {
+  const getIsFavorited = festivalId => {
+    return favoriteFestivals.includes(festivalId)
+  }
+
+  const fetchFestivals = async () => {
     try {
       const response = await fetch(
         `${config.festivalDateRangeApi}?startDate=${startDate}&endDate=${endDate}`
       )
       const data = await response.json()
-      setFestivals(data.festivals)
-      console.log(`Festivals after`, festivals)
+      let filteredFestivals = data.festivals
+
+      //only contains right genres
+      filteredFestivals = filteredFestivals.filter(festival =>
+        currentGenres.includes(festival.music_genre)
+      )
+
+      //only contains favorites
+      if (favoritesOnly) {
+        filteredFestivals = filteredFestivals.filter(festival =>
+          favoriteFestivals.includes(festival.id)
+        )
+      }
+
+      setFestivals(filteredFestivals)
     } catch (error) {
       console.error('Error fetching festivals:', error)
     }
   }
 
-  const fetchFestivalsCallback = useCallback(() => {
-    fetchFestivals(startDate, endDate)
-  }, [startDate, endDate])
+  const setFavoritesAndGenres = async () => {
+    const user = await userUtils.getUserData()
+    if (user) {
+      setFavoriteFestivals(user.user.favorite_festivals)
+      setFavoritesOnly(checkedGenres.includes('Favorites'))
+    }
+    setCurrentGenres(checkedGenres)
+  }
 
   useEffect(() => {
-    fetchFestivalsCallback()
-  }, [fetchFestivalsCallback])
+    setFavoritesAndGenres()
+  }, [checkedGenres, userLoggedIn])
+
+  useEffect(() => {
+    fetchFestivals()
+  }, [startDate, endDate, currentGenres])
 
   return (
     <div className={`map-component`}>
@@ -130,21 +106,21 @@ const MapComponent = ({ checkedGenres }) => {
           mapId={'yourfavoritemsetDatesap'}
           zoom={10}
           backgroundColor={'#000018'}
-          styles={darkMapStyle}
+          /*styles={darkMapStyle} this woulda worked if we didnt need advanced maps :( */
         >
-          {festivals //render only checked genres
-            .filter(festival => checkedGenres.includes(festival.music_genre))
-            .map(festival => (
-              <FestivalMarker
-                id={festival.id}
-                name={festival.name}
-                position={{
-                  lat: festival.latitude,
-                  lng: festival.longitude
-                }}
-                genre={festival.music_genre}
-              />
-            ))}
+          {festivals.map(festival => (
+            <FestivalMarker
+              key={festival.id}
+              id={festival.id}
+              name={festival.name}
+              position={{
+                lat: festival.latitude,
+                lng: festival.longitude
+              }}
+              getIsFavorited={getIsFavorited}
+              handleFavoriteChange={handleFavoriteChange}
+            />
+          ))}
         </Map>
       </APIProvider>
       <DateSlider setDates={setDates} />

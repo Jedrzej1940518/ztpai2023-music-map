@@ -3,6 +3,7 @@ const apiBaseUrl = `http://localhost:${backendPort}`
 const userApi = `${apiBaseUrl}/api/user`
 const singInApi = `${userApi}/signin`
 const registerApi = `${userApi}/register`
+const favoriteFestivalApi = `${userApi}/favorite`
 
 const festivalApi = `${apiBaseUrl}/api/festival`
 const festivalDateRangeApi = `${festivalApi}/dateRange`
@@ -15,5 +16,6 @@ module.exports = {
   registerApi,
   festivalApi,
   festivalDateRangeApi,
-  googleMapsApiKey
+  googleMapsApiKey,
+  favoriteFestivalApi
 }

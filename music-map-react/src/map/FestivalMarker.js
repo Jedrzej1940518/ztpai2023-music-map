@@ -1,5 +1,3 @@
-//https://github.com/visgl/react-google-maps/blob/main/examples/markers-and-infowindows/src/marker-with-infowindow.tsx
-
 import React, { useState } from 'react'
 import {
   AdvancedMarker,
@@ -7,9 +5,29 @@ import {
   useAdvancedMarkerRef
 } from '@vis.gl/react-google-maps'
 
-const FestivalMarker = ({ id, name, position, genre }) => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons'
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
+
+//onAddToFavorites
+
+const FestivalMarker = ({
+  id,
+  name,
+  position,
+  getIsFavorited,
+  handleFavoriteChange
+}) => {
   const [infowindowOpen, setInfowindowOpen] = useState(false)
   const [markerRef, marker] = useAdvancedMarkerRef()
+  const [isFavorited, setIsFavortied] = useState(getIsFavorited(id))
+
+  const handleAddToFavorites = () => {
+    const newVal = !isFavorited
+    setIsFavortied(newVal)
+    handleFavoriteChange(id, newVal)
+  }
 
   return (
     <>
@@ -17,7 +35,7 @@ const FestivalMarker = ({ id, name, position, genre }) => {
         ref={markerRef}
         onClick={() => setInfowindowOpen(true)}
         position={position}
-        title={'AdvancedMarker that opens an Infowindow when clicked.'}
+        title={name}
       />
       {infowindowOpen && (
         <InfoWindow
@@ -25,15 +43,33 @@ const FestivalMarker = ({ id, name, position, genre }) => {
           maxWidth={200}
           onCloseClick={() => setInfowindowOpen(false)}
         >
-          <div>
+          <div
+            style={{
+              position: 'relative',
+              padding: '10px',
+              backgroundColor: 'black',
+              color: 'white'
+            }}
+          >
+            <button
+              onClick={handleAddToFavorites}
+              style={{
+                position: 'absolute',
+                top: '0',
+                right: '0',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: isFavorited ? 'yellow' : 'white'
+              }}
+            >
+              <FontAwesomeIcon
+                icon={isFavorited ? faStarSolid : faStarRegular}
+              />
+            </button>
             <p>
-              Festival ID {id} : {name}\n genre : {genre}
+              Festival ID {id} : {name}
             </p>
-            <img
-              src={process.env.PUBLIC_URL + '/logo192.png'}
-              alt=''
-              style={{ maxWidth: '20%' }}
-            />
           </div>
         </InfoWindow>
       )}

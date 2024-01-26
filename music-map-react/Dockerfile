@@ -3,10 +3,10 @@ FROM node:14
 
 WORKDIR /usr/src/app
 
-# Define dependencies
+ENV DEPS_FONT_AWESOME="@fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/react-fontawesome"
 ENV DEPS="create-react-app validator cookie @vis.gl/react-google-maps multi-range-slider-react"
 
-RUN npm install $DEPS
+RUN npm install $DEPS $DEPS_FONT_AWESOME
 
 RUN npx create-react-app music_map
 
