@@ -51,6 +51,8 @@ const RegisterPanel = ({
           setMessage(data.message)
         } else {
           setMessage('Registration successful')
+          setShowRegisterPanel(false)
+          setShowSignedIn(true)
         }
       })
       .catch(err => {

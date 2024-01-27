@@ -20,7 +20,7 @@ class DbManager {
       console.log('Database connection successful.')
       await this.sequelize.sync({ force: false })
       console.log('Database synchronized.')
-      this.logUserTable()
+      // this.logUserTable()
       console.log('Users read correctly.')
     } catch (error) {
       console.error('Error connecting to the database. Retrying in ~2 seconds.')

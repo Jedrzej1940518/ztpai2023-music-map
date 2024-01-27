@@ -7,8 +7,9 @@ RUN apt-get update \
 WORKDIR /usr/src/app
 
 ENV DEPS="cors express jsonwebtoken pg sequelize sequelize-cli cookie cookie-parser sequelize-auto bcrypt"
+ENV SWAGGER_DEPS="swagger-ui-express swagger-jsdoc"
 
-RUN npm install $DEPS
+RUN npm install $DEPS $SWAGGER_DEPS
 
 COPY . .
 

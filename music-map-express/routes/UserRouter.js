@@ -15,7 +15,6 @@ class UserRouter {
 
   initializeRoutes () {
     this.router.get('/', this.getUserApi.bind(this))
-    this.router.get('/:id', this.getUserDetails.bind(this))
     this.router.post(config.singInApi, this.signIn.bind(this))
     this.router.post(config.registerApi, this.register.bind(this))
     this.router.post(
@@ -27,6 +26,71 @@ class UserRouter {
   async hashPassword (password) {
     return await bcrypt.hash(password, 10)
   }
+
+  /**
+   * @swagger
+   * /api/user/favorite:
+   *   post:
+   *     summary: sets/unsets festival as favorite based on JWT token.
+   *     security:
+   *       - bearerAuth: []
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               festivalId:
+   *                 type: integer
+   *               value:
+   *                 type: boolean
+   *     responses:
+   *       200:
+   *         description: Festival favorited/unfavorited
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                 message:
+   *                   type: string
+   *             example:
+   *               success: true
+   *               message: 'Favorite status updated successfully.'
+   *       401:
+   *         description: Authenticator error
+   *       500:
+   *         description: Server problems
+   *
+   * components:
+   *   schemas:
+   *     user:
+   *       type: object
+   *       properties:
+   *         id:
+   *           type: integer
+   *           description: user id
+   *         nickname:
+   *           type: string
+   *           description: user nickname
+   *         email:
+   *           type: string
+   *           format: email
+   *           description: user email
+   *         password:
+   *           type: string
+   *           format: password
+   *           description: hashed user password
+   *         favorite_festivals:
+   *           type: array
+   *           items:
+   *              type: integer
+   *           description: array of ids - favorite user festivals
+   *
+   */
 
   async setFavoriteFestival (req, res) {
     this.jwtManager
@@ -54,6 +118,48 @@ class UserRouter {
       })
   }
 
+  /**
+   * @swagger
+   * /api/user/:
+   *   get:
+   *     summary: Retruns user info based on JWT token.
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: User info.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                  success:
+   *                    type: boolean
+   *                  message:
+   *                    type: string
+   *                  user:
+   *                    schema:
+   *                       $ref: '#/components/schemas/user'
+   *       401:
+   *         description: User not logged in.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                  success:
+   *                    type: boolean
+   *                  message:
+   *                    type: string
+   *                  user:
+   *                    type: user
+   *                    nullable: true
+   *             example:
+   *               success: false
+   *               message: 'Authentication failed.'
+   *               user: null
+   */
+
   async getUserApi (req, res) {
     this.jwtManager
       .authenticateToken(req)
@@ -75,10 +181,42 @@ class UserRouter {
       })
   }
 
-  async getUserDetails (req, res) {
-    const userId = req.params.id
-    res.json({ message: `Szczegóły usera o ID ${userId}` })
-  }
+  /**
+   * @swagger
+   * /api/user/signIn:
+   *   post:
+   *     summary: Sign in.
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Sign in succesfull
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                success:
+   *                  type: boolean
+   *                message:
+   *                  type: string
+   *                user:
+   *                   schema:
+   *                     $ref: '#/components/schemas/user'
+   *                token:
+   *                  type: string
+   *       401:
+   *         description: Sign in failed
+   */
 
   async signIn (req, res) {
     const { email, password } = req.body
@@ -113,6 +251,34 @@ class UserRouter {
       res.status(500).json({ success: false, message: 'Internal server error' })
     }
   }
+
+  /**
+   * @swagger
+   * /api/user/register:
+   *   post:
+   *     summary: New user registration.
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email:
+   *                 type: string
+   *               nickname:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: User sucesfully registresd
+   *       401:
+   *         description: Registration failed
+   *       500:
+   *         description: Server problems
+   */
+
   async register (req, res) {
     const { email, nickname, password, repPassword } = req.body
 

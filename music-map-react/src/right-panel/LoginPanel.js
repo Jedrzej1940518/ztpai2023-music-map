@@ -53,6 +53,8 @@ const LoginPanel = ({
           console.log(
             `Signed in as ${data.user.nickname} with token ${data.token}`
           )
+          setShowLoginPanel(false)
+          setShowSignedIn(true)
         }
       })
       .catch(e => {
