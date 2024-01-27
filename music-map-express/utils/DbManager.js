@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize')
 
 class DbManager {
-  constructor () {
+  constructor() {
     this.sequelize = new Sequelize({
       dialect: 'postgres',
       host: process.env.DB_HOST,
@@ -14,7 +14,7 @@ class DbManager {
     this.Festival = require('../models/festival')(this.sequelize, Sequelize)
   }
 
-  async initializeDatabase () {
+  async initializeDatabase() {
     try {
       await this.sequelize.authenticate()
       console.log('Database connection successful.')
@@ -27,7 +27,7 @@ class DbManager {
       setTimeout(() => this.initializeDatabase(), 2000)
     }
   }
-  async logUserTable () {
+  async logUserTable() {
     try {
       const user = await this.getUserByEmail('ala@wp.pl')
       console.log('User 0: ', user)
@@ -40,7 +40,7 @@ class DbManager {
     }
   }
 
-  async getUserByEmailAndPassword (email, password) {
+  async getUserByEmailAndPassword(email, password) {
     try {
       const user = await this.User.findOne({
         where: {
@@ -55,7 +55,7 @@ class DbManager {
       throw error
     }
   }
-  async getUserById (id) {
+  async getUserById(id) {
     try {
       const user = await this.User.findOne({
         where: {
@@ -70,7 +70,7 @@ class DbManager {
     }
   }
 
-  async getUserByEmail (email) {
+  async getUserByEmail(email) {
     try {
       const user = await this.User.findOne({
         where: {
@@ -84,7 +84,7 @@ class DbManager {
       throw error
     }
   }
-  async registerUser (email, nickname, password) {
+  async registerUser(email, nickname, password) {
     try {
       const newUser = await this.User.create({
         email: email,
@@ -100,7 +100,7 @@ class DbManager {
       return { success: false, error: error.message }
     }
   }
-  async updateFavoriteFestivals (userId, festivalId, value) {
+  async updateFavoriteFestivals(userId, festivalId, value) {
     try {
       const user = await this.getUserById(userId)
 
@@ -134,7 +134,7 @@ class DbManager {
     }
   }
 
-  async getFestivalsByDateRange (startDate, endDate) {
+  async getFestivalsByDateRange(startDate, endDate) {
     try {
       const festivals = await this.Festival.findAll({
         where: {
